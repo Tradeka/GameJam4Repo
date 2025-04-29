@@ -10,17 +10,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Image forceGaugeFill;
 
     [Header("Variables")]
-    [SerializeField][Range(0f,100f)] private float speed;
-    [SerializeField][Range(0f,100f)] private float minJumpStrength;
-    [SerializeField][Range(0f,100f)] private float maxJumpStrength;
+    [SerializeField][Range(0f, 100f)] private float speed;
+    [SerializeField][Range(0f, 100f)] private float minJumpStrength;
+    [SerializeField][Range(0f, 100f)] private float maxJumpStrength;
     [SerializeField][Range(0f, 10f)] private float maxJumpHold;
-    
 
     private float jumpStartTime;
     private bool canJump;
     private Vector2 movement;
     private bool isHoldingJump = false;
     private Coroutine resetFillCoroutine;
+
+    // --- New fields for materials and upgrade ---
+    private int collectedMaterials = 0;
+    [SerializeField][Range(0f, 10f)] public int materialsForUpgrade = 10;
+    private bool jumpUpgraded = false;
 
     private void Awake()
     {
@@ -30,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Apply X movement
+        // Apply X movement
         rb.linearVelocityX = movement.x * speed;
     }
 
@@ -56,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
             jumpStartTime = Time.time;
             isHoldingJump = true;
 
-            // Stop reset coroutine if restarting a jump
             if (resetFillCoroutine != null)
             {
                 StopCoroutine(resetFillCoroutine);
@@ -73,11 +76,9 @@ public class PlayerMovement : MonoBehaviour
             canJump = false;
             isHoldingJump = false;
 
-            // Start coroutine to reset fill
             resetFillCoroutine = StartCoroutine(ResetFillGauge());
         }
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator ResetFillGauge()
     {
         float startFill = forceGaugeFill.fillAmount;
-        float duration = 0.3f; // Smoothly reduce over 0.3 seconds
+        float duration = 0.3f;
         float elapsed = 0f;
 
         while (elapsed < duration)
@@ -102,5 +103,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
         forceGaugeFill.fillAmount = 0f;
+    }
+    public void CollectMaterial()
+    {
+        collectedMaterials++;
+        Debug.Log("Collected Material! Total: " + collectedMaterials);
+
+        if (collectedMaterials >= materialsForUpgrade && !jumpUpgraded)
+        {
+            UpgradeJump();
+        }
+    }
+
+    private void UpgradeJump()
+    {
+        jumpUpgraded = true;
+        maxJumpStrength *= 2f;
+        Debug.Log("Jump strength upgraded! New maxJumpStrength: " + maxJumpStrength);
     }
 }

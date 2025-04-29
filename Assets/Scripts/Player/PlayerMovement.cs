@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private bool isHoldingJump = false;
     private Coroutine resetFillCoroutine;
+    private bool canMove;
 
     // --- New fields for materials and upgrade ---
     private int collectedMaterials = 0;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        canMove = true;
         canJump = false;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -35,7 +37,10 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // Apply X movement
-        rb.linearVelocityX = movement.x * speed;
+        if (canMove)
+        {
+            rb.linearVelocityX = movement.x * speed;
+        }
     }
 
     private void Update()
@@ -57,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started && canJump)
         {
+            rb.linearVelocityX = 0;
+            canMove = false;
             jumpStartTime = Time.time;
             isHoldingJump = true;
 
@@ -68,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (context.canceled && canJump)
         {
+            canMove = true;
             float heldTime = Time.time - jumpStartTime;
             float holdPercent = Mathf.Clamp01(heldTime / maxJumpHold);
             float jumpForce = Mathf.Lerp(minJumpStrength, maxJumpStrength, holdPercent);

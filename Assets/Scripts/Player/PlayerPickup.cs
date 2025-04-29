@@ -31,6 +31,6 @@ public class PlayerPickup : MonoBehaviour
             col.enabled = false;
         }
 
-        FindObjectOfType<PlayerMovement>().CollectMaterial();
+        FindFirstObjectByType<PlayerMovement>().CollectMaterial();
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerPickup : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class PlayerPickup : MonoBehaviour
 
     void PickupMaterial(GameObject material)
     {
+        Light2D pickupLight = material.GetComponentInChildren<Light2D>();
+        pickupLight.enabled = false;
         heldMaterialName = material.name; // Save the material's name
         Debug.Log("Picked up: " + heldMaterialName);
 

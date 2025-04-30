@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class PlayerPickup : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class PlayerPickup : MonoBehaviour
     private void Update()
     {
         numText.text = $"{itemsCollected}/{totalItems}";
+        if(itemsCollected >= totalItems)
+        {
+            SceneManager.LoadScene(3);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

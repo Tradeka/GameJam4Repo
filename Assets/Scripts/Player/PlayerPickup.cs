@@ -1,15 +1,38 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 
 public class PlayerPickup : MonoBehaviour
 {
     public LayerMask pickupLayer;            
     private string heldMaterialName;
 
+    public List<GameObject> pickupItems;
+    public TMP_Text numText; 
+
+    private int totalItems = 0;
+    private int itemsCollected = 0;
+
+    public AudioSource pickupSound;
+
+    private void Awake()
+    {
+        totalItems = pickupItems.Count;
+    }
+
+    private void Update()
+    {
+        numText.text = $"{itemsCollected}/{totalItems}";
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & pickupLayer) != 0)
         {
+            itemsCollected++;
             PickupMaterial(collision.gameObject);
+            pickupSound.Play();
         }
     }
 

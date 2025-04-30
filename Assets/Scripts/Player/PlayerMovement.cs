@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine resetFillCoroutine;
     private bool canMove;
     private float jumpForce;
-
+    private SpriteRenderer pRenderer;
     // --- New fields for materials and upgrade ---
     private int collectedMaterials = 0;
     [SerializeField][Range(0f, 10f)] public int materialsForUpgrade = 10;
@@ -35,12 +35,18 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject[] points;
 
+    private Animator playerAnim;
+
+    public AudioSource jumpSound;
+
 
     private void Awake()
     {
         canMove = true;
         canJump = false;
         rb = GetComponent<Rigidbody2D>();
+        pRenderer = GetComponent<SpriteRenderer>();
+        playerAnim = GetComponent<Animator>();
 
         //Initialize point array
         points = new GameObject[numberOfPoints];
@@ -64,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isHoldingJump && canJump)
         {
+            playerAnim.SetBool("Holding", true);
             float heldTime = Time.time - jumpStartTime;
             float fillAmount = Mathf.Clamp01(heldTime / maxJumpHold);
             forceGaugeFill.fillAmount = fillAmount;
@@ -80,11 +87,21 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            playerAnim.SetBool("Holding", false);
             // Hide points when not charging jump
             for (int i = 0; i < numberOfPoints; i++)
             {
                 points[i].SetActive(false);
             }
+        }
+
+        if (movement.x < 0)
+        {
+            pRenderer.flipX = true;
+        }
+        else if (movement.x > 0)
+        {
+            pRenderer.flipX = false;
         }
     }
 
@@ -110,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (context.canceled && canJump)
         {
+            jumpSound.Play();
             canMove = true;
             float heldTime = Time.time - jumpStartTime;
             float holdPercent = Mathf.Clamp01(heldTime / maxJumpHold);

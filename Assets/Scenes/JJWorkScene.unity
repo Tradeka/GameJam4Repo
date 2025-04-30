@@ -4803,6 +4803,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 187155938013883136, guid: 96dc2ca9c570a7e4e8ec6fc223fea9e4, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076295442270226622, guid: 96dc2ca9c570a7e4e8ec6fc223fea9e4, type: 3}
+      propertyPath: orthographic size
+      value: 7.76
+      objectReference: {fileID: 0}
     - target: {fileID: 2777920184723364150, guid: 96dc2ca9c570a7e4e8ec6fc223fea9e4, type: 3}
       propertyPath: jumpSound
       value: 

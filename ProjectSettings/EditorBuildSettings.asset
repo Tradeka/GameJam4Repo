@@ -6,14 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/CoraWorkScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/MainMenu.unity
+    guid: fa2e3ca29dda7e54caec22ea2fff5ac7
   - enabled: 1
     path: Assets/Scenes/JJWorkScene.unity
     guid: 39fd34733301c9f40872f71fa07c934d
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: fa2e3ca29dda7e54caec22ea2fff5ac7
   - enabled: 1
     path: Assets/Scenes/WinScreen.unity
     guid: 07e38ffc78b7cdc49bc083176636b214

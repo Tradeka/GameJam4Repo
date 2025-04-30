@@ -28,7 +28,7 @@ public class PlayerPickup : MonoBehaviour
         numText.text = $"{itemsCollected}/{totalItems}";
         if(itemsCollected >= totalItems)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
     }
 
